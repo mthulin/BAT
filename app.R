@@ -1,4 +1,4 @@
-# BAT 2.0
+# BAT 2.1
 # By Mans Thulin
 # mans@statistikkonsult.com
 
@@ -12,13 +12,13 @@ source("bat-helpers.R")
 
 
 # Create UI:
-ui <- navbarPage("BAT 2.0",
+ui <- navbarPage("BAT 2.1",
                  # The different tabs:
                  tabPanel("Data", 
                           sidebarLayout(
                               
                               # Sidebar panel for inputs ----
-                              sidebarPanel(HTML("Welcome!<br>Please <a href=”http://www.mansthulin.se/bat”>go here</a> for instructions on how to use BAT.<br>&nbsp;<br>"),
+                              sidebarPanel(HTML("Welcome!<br>Please see <a href=”http://www.mansthulin.se/bat”>this blog post</a> for instructions on how to use BAT.<br>BAT is free software and comes with absolutely no warranty.<br>&nbsp;<br>"),
                                   
                                   # Input: Select a file ----
                                   fileInput("file1", "Choose CSV File",
@@ -37,13 +37,19 @@ ui <- navbarPage("BAT 2.0",
                                                            Tab = "\t"),
                                                selected = ","),
                                   
-                                  # Input: Select separator ----
+                                  # Input: Select encoding ----
                                   radioButtons("encoding", "Encoding for CSV file:",
                                                choices = c(UTF8 = "UTF-8",
                                                            UTF16 = "UTF-16",
                                                            Latin1 = "Latin1",
                                                            Latin2 = "Latin2"),
-                                               selected = "UTF-16")
+                                               selected = "UTF-16"),
+                                  
+                                  # Input: Select decimal point symbol ----
+                                  radioButtons("dec", "Decimal separator used in file:",
+                                               choices = c(Point = ".",
+                                                           Comma = ","),
+                                               selected = ".")
                               ),
                               
                               # Main panel for displaying outputs ----
@@ -181,8 +187,7 @@ server <- function(input, output, session) {
         if (is.null(infile)){
             return(NULL)      
         }
-     #OD<-read.csv(infile$datapath, header = TRUE, sep = input$sep, fileEncoding="UTF-16")
-     OD<-read.csv(infile$datapath, header = TRUE, sep = input$sep, fileEncoding=input$encoding)
+     OD<-read.csv(infile$datapath, header = TRUE, sep = input$sep, fileEncoding=input$encoding, dec=input$dec)
        
         
         

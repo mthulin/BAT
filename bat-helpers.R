@@ -1,4 +1,4 @@
-# Functions for BAT 2.0
+# Functions for BAT 2.1
 # By Mans Thulin
 # mans@statistikkonsult.com
 
